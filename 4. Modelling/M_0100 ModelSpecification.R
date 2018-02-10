@@ -27,7 +27,7 @@ dataForModelling[, competitor_variables] = sapply(
 		ifelse(x == 0, NA, x)
 )
 
-dataForModelling <- dataForModelling %>% mutate(BaseSales = log(BaseSales2), priceEffect = -log( ACTUAL_PRICE / BasePrice))
+dataForModelling <- dataForModelling %>% mutate(BaseSales = log(BaseSales2), priceEffect = ACTUAL_PRICE/BasePrice - 1)
 dataForModelling <- dataForModelling %>% 
   mutate(promA = case_when(TYPE_OF_PROMOTION == "A" ~ 1, TRUE ~ 0)) %>% 
   mutate(promB = case_when(TYPE_OF_PROMOTION == "B" ~ 1, TRUE ~ 0)) %>%
@@ -35,7 +35,7 @@ dataForModelling <- dataForModelling %>%
   mutate(promD = case_when(TYPE_OF_PROMOTION == "D" ~ 1, TRUE ~ 0)) %>%
   mutate(promE = case_when(TYPE_OF_PROMOTION == "E" ~ 1, TRUE ~ 0)) 
 
-dataForModelling <- dataForModelling %>% mutate(Upsale = log(VOLUME_OF_SALES / BaseSales))
+dataForModelling <- dataForModelling %>% mutate(Upsale = log(VOLUME_OF_SALES) - BaseSales)
 dataForModelling <- dataForModelling %>% 
   mutate(compRet1 = log(COMPETITOR1_PRICE) - log(lag(COMPETITOR1_PRICE))) %>% 
   mutate(compRet2 = log(COMPETITOR2_PRICE) - log(lag(COMPETITOR2_PRICE))) %>% 
@@ -55,13 +55,13 @@ dataForModelling[is.na(dataForModelling$compRet7),"compRet7"] = 0
 
 dataForModelling[is.na(dataForModelling$LengthOfProm), "LengthOfProm"] <- 0
 dataForModelling <- dataForModelling %>% 
-  mutate(priceDiff1 = ACTUAL_PRICE - COMPETITOR1_PRICE) %>% 
-  mutate(priceDiff2 = ACTUAL_PRICE - COMPETITOR2_PRICE) %>% 
-  mutate(priceDiff3 = ACTUAL_PRICE - COMPETITOR3_PRICE) %>% 
-  mutate(priceDiff4 = ACTUAL_PRICE - COMPETITOR4_PRICE) %>% 
-  mutate(priceDiff5 = ACTUAL_PRICE - COMPETITOR5_PRICE) %>% 
-  mutate(priceDiff6 = ACTUAL_PRICE - COMPETITOR6_PRICE) %>% 
-  mutate(priceDiff7 = ACTUAL_PRICE - COMPETITOR7_PRICE) 
+  mutate(priceDiff1 = log(ACTUAL_PRICE) - log(COMPETITOR1_PRICE)) %>% 
+  mutate(priceDiff2 = log(ACTUAL_PRICE) - log(COMPETITOR2_PRICE)) %>% 
+  mutate(priceDiff3 = log(ACTUAL_PRICE) - log(COMPETITOR3_PRICE)) %>% 
+  mutate(priceDiff4 = log(ACTUAL_PRICE) - log(COMPETITOR4_PRICE)) %>% 
+  mutate(priceDiff5 = log(ACTUAL_PRICE) - log(COMPETITOR5_PRICE)) %>% 
+  mutate(priceDiff6 = log(ACTUAL_PRICE) - log(COMPETITOR6_PRICE)) %>% 
+  mutate(priceDiff7 = log(ACTUAL_PRICE) - log(COMPETITOR7_PRICE)) 
 
 dataForModelling[is.na(dataForModelling$priceDiff1),"priceDiff1"] = 0
 dataForModelling[is.na(dataForModelling$priceDiff2),"priceDiff2"] = 0
@@ -100,11 +100,13 @@ dataForModelling$numberOfComps <- rowSums(!is.na(dataForModelling[, c("COMPETITO
                                                           "COMPETITOR5_PRICE", "COMPETITOR6_PRICE",
                                                           "COMPETITOR7_PRICE")]))
 dataForModelling$percOfWeeksInPromLast3Month <- rep(0, n, 1)
+dataForModelling$numberOfComps <- (dataForModelling$numberOfComps - mean(dataForModelling$numberOfComps))/sd(dataForModelling$numberOfComps)
 
 for (i in 13:n) {
   dataForModelling[i, "percOfWeeksInPromLast3Month"] <- mean(dataForModelling[ (i-11):i ,"inProm"])
 }
 
+dataForModelling$percOfWeeksInPromLast3Month <- (dataForModelling$percOfWeeksInPromLast3Month - mean(dataForModelling$percOfWeeksInPromLast3Month))/ sd(dataForModelling$percOfWeeksInPromLast3Month)
 
 
 
