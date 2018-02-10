@@ -1,3 +1,18 @@
+# Robust package load
+if (!require(tidyverse)) {
+	install.packages("tidyverse")
+	require(tidyverse)
+}
+
+in_file = "../0. Data/D_0010 DU_0100 BaseManipulations.csv"#
+out_file = "../0. Data/D_0020 BasePriceCalculation.csv"
+	
+# Fix working directory
+data <- tryCatch(
+	read.csv2(in_file, header = TRUE, sep = ";", stringsAsFactors = FALSE),
+	error = function(e)
+		stop("Data not found. Run this script via source command (Ctrl+Shift+Enter): \n\tsource('[SCRIPT]', chdir = TRUE) \nAlternatively, setwd() manually.")
+)
 data$BasePrice <- rep(NA, T, 1)
 
 ## basePrice before first Promotion = Actual price
@@ -33,3 +48,11 @@ for(j in 6:144) {
 }
 data[145, "BasePrice"] <- data[145, "ACTUAL_PRICE"]
 data[146, "BasePrice"] <- data[146, "ACTUAL_PRICE"]
+
+#	Export the data
+
+write.csv2(
+	x = data,
+	file = out_file,
+	row.names = F
+)

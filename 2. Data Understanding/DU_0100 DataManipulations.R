@@ -84,4 +84,8 @@ data <- data %>% mutate(SalesYearPast = lag(VOLUME_OF_SALES, n = 52))
 data <- data %>% mutate(PercSaleuplift = VOLUME_OF_SALES / BaseSales2 - 1)
 
 #	Write the script:
-write.csv2(data, out_file)
+write.csv2(
+	x = data, 
+	file = out_file,
+	row.names = F
+)
