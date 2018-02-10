@@ -7,7 +7,7 @@ rm(list=ls())
 # Fix working directory
 in_file = "../0. Data/D_0010 DU_0100 BaseManipulations.csv"
 data <- tryCatch(
-	read.csv(in_file, header = TRUE, sep = ";", stringsAsFactors = FALSE),
+	read.csv2(in_file, header = TRUE, sep = ";", stringsAsFactors = FALSE),
 	error = function(e)
 		stop("Data not found. Run this script via source command (Ctrl+Shift+Enter): \n\tsource('[SCRIPT]', chdir = TRUE) \nAlternatively, setwd() manually.")
 )
@@ -20,7 +20,7 @@ data %>% head()
 png(
 	filename = "DU_0200 Exploration Plot %02d.png",
 	width = 1200,
-	height = 900
+	height = 800
 )
 str(data)
 data[data == 0] = NA
@@ -64,3 +64,4 @@ data %>% select(BaseSales, Week, VOLUME_OF_SALES, BaseSales2) %>%
 
 #	Stop plotting device
 dev.off()
+
