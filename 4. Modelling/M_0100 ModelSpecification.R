@@ -1,6 +1,31 @@
+
+# Robust package load
+if (!require(tidyverse)) {
+	install.packages("tidyverse")
+	require(tidyverse)
+}
+
+rm(list = ls())
+in_file = "../0. Data/D_0020 BasePriceCalculation.csv"
+out_file = "M_0101 Result.txt"
+# Fix working directory
+data <- tryCatch(
+	read.csv2(in_file, header = TRUE, sep = ";", stringsAsFactors = FALSE),
+	error = function(e)
+		stop("Data not found. Run this script via source command (Ctrl+Shift+Enter): \n\tsource('[SCRIPT]', chdir = TRUE) \nAlternatively, setwd() manually.")
+)
 dataForModelling <- data[, c("Week", "BasePrice", "TYPE_OF_PROMOTION", "ACTUAL_PRICE", "BaseSales2", "VOLUME_OF_SALES", "inProm", 
                              "COMPETITOR1_PRICE", "COMPETITOR2_PRICE", "COMPETITOR3_PRICE", "COMPETITOR4_PRICE", "COMPETITOR5_PRICE",
                              "COMPETITOR6_PRICE", "COMPETITOR7_PRICE", "LengthOfProm")]
+
+#	Fix Inf numbers creeping up
+competitor_variables = c("COMPETITOR1_PRICE", "COMPETITOR2_PRICE", "COMPETITOR3_PRICE", "COMPETITOR4_PRICE", "COMPETITOR5_PRICE",
+                             "COMPETITOR6_PRICE", "COMPETITOR7_PRICE")
+dataForModelling[, competitor_variables] = sapply(
+	dataForModelling[, competitor_variables],
+	function(x)
+		ifelse(x == 0, NA, x)
+)
 
 dataForModelling <- dataForModelling %>% mutate(BaseSales = log(BaseSales2), priceEffect = -log( ACTUAL_PRICE / BasePrice))
 dataForModelling <- dataForModelling %>% 
@@ -47,10 +72,10 @@ dataForModelling[is.na(dataForModelling$priceDiff6),"priceDiff6"] = 0
 dataForModelling[is.na(dataForModelling$priceDiff7),"priceDiff7"] = 0
 
 
+n = nrow(dataForModelling)
+dataForModelling$timeFromLastProm <- rep(0, n, 1)
 
-dataForModelling$timeFromLastProm <- rep(0, T, 1)
-
-for (i in 9:T) {
+for (i in 9:n) {
   if (dataForModelling$inProm[i] == 1) {
     dataForModelling$timeFromLastProm[i]  <- 0
   } else {
@@ -58,8 +83,8 @@ for (i in 9:T) {
   }
 }
 
-dataForModelling$timeInProm <- rep(0, T, 1)
-for (i in 6:T) {
+dataForModelling$timeInProm <- rep(0, n, 1)
+for (i in 6:n) {
   if (dataForModelling$inProm[i] == 0) {
     dataForModelling$timeInProm[i]  <- 0
   } else {
@@ -69,13 +94,14 @@ for (i in 6:T) {
 
 ###
 
-dataForModelling$numberOfComps <- rowSums(!is.na(data[, c("COMPETITOR1_PRICE", "COMPETITOR2_PRICE", 
+# dataForModelling$numberOfComps <- rowSums(!is.na(data[, c("COMPETITOR1_PRICE", "COMPETITOR2_PRICE", 
+dataForModelling$numberOfComps <- rowSums(!is.na(dataForModelling[, c("COMPETITOR1_PRICE", "COMPETITOR2_PRICE", 
                                                           "COMPETITOR3_PRICE", "COMPETITOR4_PRICE", 
                                                           "COMPETITOR5_PRICE", "COMPETITOR6_PRICE",
                                                           "COMPETITOR7_PRICE")]))
-dataForModelling$percOfWeeksInPromLast3Month <- rep(0, T, 1)
+dataForModelling$percOfWeeksInPromLast3Month <- rep(0, n, 1)
 
-for (i in 13:T) {
+for (i in 13:n) {
   dataForModelling[i, "percOfWeeksInPromLast3Month"] <- mean(dataForModelling[ (i-11):i ,"inProm"])
 }
 
@@ -90,4 +116,9 @@ frm <- as.formula(paste("Upsale ~ priceEffect +",
                         sep = ""))
 model <- lm(frm, dataForModelling )
 summary(model)
+
+#	Export the result
+sink(file = out_file)
+summary(model)
+sink()
 
