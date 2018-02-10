@@ -1,0 +1,44 @@
+Chameleon - SAP Case Team Mentors:
+Alexander Efremov(aefremov@gmail.com) and Agamemnon Baltagiannis (agamemnon.baltagiannis@sap.com)
+
+SAP Case Team:
+Stefan Panev (stephen.panev@gmail.com), Metodi Nikolov (metodi.nikolov@gmail.com), Ivan Vrategov (ivanvrategov@gmail.com, Radoslav Dimitrov (rdimitrov@indeavr.com)
+Team Toolset:
+R (tidyverse)
+Excel
+
+Business Understanding
+Who: Reatial Supermarket
+What: The effects of the promotions of compeditors on the volume of sales.
+
+Data Understanding
+Creating Dummy Varaibles
+Ploting variables against each other
+https://github.com/Bugzey/Chameleon-SAP
+
+Data Understanding
+Chart 1 Ploloting the volume of sales agains the weeks, it is devided by the different types of promotions. There is a lot of variation.
+Chart 2 Ploting the actual price against the weeks, it is devided by the different types of promotions. Usually the price variation is less then 20%
+case A and E are exceptions.
+Chart 3 Ploting the volume of sales against the weeks, it is devided by the different types of promotions. A type of promotion is having the highest volumes.
+Chart 4 Ploting the actual price against the weeks, it is devided by the different types of promotions. A type is having the lowest prices.
+Chart 5 Ploting the volume of sales against the weeks, it is devided by the different types of promotions.
+Chart 6 Ploting the dummy variavle BaseSales against the weeks, the latest weeks have the highest baselines.
+Chart 7 Ploting the dummy variavle SalesYearPast against the weeks, the situation is similar to that of Chart 6.
+
+Note 1 the Chart numbering in github is not the same as here. Here the sourced code is being followed on the numbering.
+Note 2 The legend of charts 6-8 the name of the color does not match with the true colors.
+
+Data Preparation
+1. Raw Data:
+Dataset 1--> Data Type: Sales --> Data Format: CSV
+Dataset 2--> Data Type: Manipolated Data Sales --> Data Format: CSV (dummy variables have been added to the intial dataset) for the compeditors.
+
+
+Modeling
+
+
+Evaluation
+
+Deployment
+The project is deployed in R. Due to the small data size MS Excel proves being sufficient for some analysis.
