@@ -24,3 +24,23 @@ data %>% select(ACTUAL_PRICE, Week, TYPE_OF_PROMOTION) %>%
 # this one is nice
 data %>% select(VOLUME_OF_SALES, Week, TYPE_OF_PROMOTION) %>% 
   ggplot(aes(x = Week, y = VOLUME_OF_SALES)) + geom_col(aes(fill = TYPE_OF_PROMOTION)) 
+
+
+data %>% select(BaseSales, Week, VOLUME_OF_SALES) %>% 
+  ggplot() + geom_line(aes(x = Week, y = BaseSales, colour = "blue"))+
+  geom_line(aes(x = Week, y = VOLUME_OF_SALES, colour = "red")) 
+
+data %>% select(SaleUplift, Week, BaseSales2) %>% 
+  ggplot() + geom_line(aes(x = Week, y = BaseSales2), colour = "blue")+
+  geom_line(aes(x = Week, y = SaleUplift), colour = "red") 
+
+
+data %>% select(SalesYearPast, Week, VOLUME_OF_SALES) %>% 
+  ggplot() + geom_line(aes(x = Week, y = SalesYearPast, colour = "blue"))+
+  geom_line(aes(x = Week, y = VOLUME_OF_SALES, colour = "red")) 
+
+data %>% select(BaseSales, Week, VOLUME_OF_SALES, BaseSales2) %>% 
+  ggplot() + geom_line(aes(x = Week, y = BaseSales, colour = "blue"))+
+  geom_line(aes(x = Week, y = VOLUME_OF_SALES, colour = "red")) +
+  geom_line(aes(x = Week, y = BaseSales2, colour = "green"))
+

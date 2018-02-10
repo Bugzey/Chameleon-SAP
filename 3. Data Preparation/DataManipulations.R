@@ -38,3 +38,30 @@ for (j in 1:T) {
     }
   }
 }
+
+data$BaseSales2 <- rep(NA, T, 1)
+for (j in 1:T) {
+  if (data[j, "FirstWeekOfProm"] == 1) {
+    if (j > 13) {
+      tmp <- data[(j-1):(j - 13), c("VOLUME_OF_SALES", "inProm")]
+      data[j, "BaseSales2"] = mean(tmp[tmp[, "inProm"] != 1, "VOLUME_OF_SALES"])
+    } else {
+      tmp <- data[(j-1):(j - 5), c("VOLUME_OF_SALES", "inProm")]
+      data[j, "BaseSales2"] = mean(tmp[tmp[, "inProm"] != 1, "VOLUME_OF_SALES"])
+    }
+  } else {
+    if (data[j, "inProm"] == 1) {
+      data[j, "BaseSales2"] = data[j-1, "BaseSales2"]
+    } else {
+      data[j, "BaseSales2"] = data[j, "VOLUME_OF_SALES"]
+    }
+  }
+}
+
+
+#data <- data %>% mutate(SaleUplift = VOLUME_OF_SALES - BaseSales)
+data <- data %>% mutate(SaleUplift = VOLUME_OF_SALES - BaseSales2)
+
+data <- data %>% mutate(SalesYearPast = lag(VOLUME_OF_SALES, n = 52))
+
+data <- data %>% mutate(PercSaleuplift = VOLUME_OF_SALES / BaseSales2 - 1)
