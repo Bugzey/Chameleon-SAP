@@ -1,9 +1,27 @@
-library(tidyverse)
+if (!require(tidyverse)) {
+	install.packages("tidyverse")
+	require(tidyverse)
+}
 
-data <- read.csv("1DATATHON_SAP_AI_initial_data.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE)
+rm(list=ls())
+# Fix working directory
+in_file = "../0. Data/D_0010 DU_0100 BaseManipulations.csv"
+data <- tryCatch(
+	read.csv(in_file, header = TRUE, sep = ";", stringsAsFactors = FALSE),
+	error = function(e)
+		stop("Data not found. Run this script via source command (Ctrl+Shift+Enter): \n\tsource('[SCRIPT]', chdir = TRUE) \nAlternatively, setwd() manually.")
+)
+print(getwd())
+#data <- read.csv("0. Data/1DATATHON_SAP_AI_initial_data.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE)
 
 data %>% head()
 
+#	Plotting
+png(
+	filename = "DU_0200 Exploration Plot %02d.png",
+	width = 1200,
+	height = 900
+)
 str(data)
 data[data == 0] = NA
 # remove the week - its the same as row
@@ -44,3 +62,5 @@ data %>% select(BaseSales, Week, VOLUME_OF_SALES, BaseSales2) %>%
   geom_line(aes(x = Week, y = VOLUME_OF_SALES, colour = "red")) +
   geom_line(aes(x = Week, y = BaseSales2, colour = "green"))
 
+#	Stop plotting device
+dev.off()

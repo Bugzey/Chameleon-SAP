@@ -1,3 +1,20 @@
+#	Basic data manipulation to make plotting the base data easier
+if (!require(tidyverse)) {
+	install.packages("tidyverse")
+	require(tidyverse)
+}
+
+in_file = "../0. Data/1DATATHON_SAP_AI_initial_data.csv"
+out_file = "../0. Data/D_0010 DU_0100 BaseManipulations.csv"
+
+# Fix working directory
+data <- tryCatch(
+	read.csv(in_file, header = TRUE, sep = ";", stringsAsFactors = FALSE),
+	error = function(e)
+		stop("Data not found. Run this script via source command (Ctrl+Shift+Enter): \n\tsource('[SCRIPT]', chdir = TRUE) \nAlternatively, setwd() manually.")
+)
+
+
 data <- data %>% mutate(inProm = case_when(TYPE_OF_PROMOTION != "" ~ 1, TYPE_OF_PROMOTION == "" ~ 0)) %>% 
   mutate(FirstWeekOfProm = case_when(inProm == 1 & lag(inProm) == 0 ~ 1, TRUE ~ 0))
 
@@ -65,3 +82,6 @@ data <- data %>% mutate(SaleUplift = VOLUME_OF_SALES - BaseSales2)
 data <- data %>% mutate(SalesYearPast = lag(VOLUME_OF_SALES, n = 52))
 
 data <- data %>% mutate(PercSaleuplift = VOLUME_OF_SALES / BaseSales2 - 1)
+
+#	Write the script:
+write.csv2(data, out_file)
