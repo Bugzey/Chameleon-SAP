@@ -31,7 +31,7 @@ dataForModelling[, competitor_variables] = sapply(
 		ifelse(x == 0, NA, x)
 )
 
-dataForModelling <- dataForModelling %>% mutate(BaseSales = log(BaseSales2), priceEffect = ACTUAL_PRICE/BasePrice - 1)
+dataForModelling <- dataForModelling %>% mutate(BaseSales = log(BaseSales2), priceEffect = -ACTUAL_PRICE/BasePrice + 1)
 dataForModelling <- dataForModelling %>% 
   mutate(promA = case_when(TYPE_OF_PROMOTION == "A" ~ 1, TRUE ~ 0)) %>% 
   mutate(promB = case_when(TYPE_OF_PROMOTION == "B" ~ 1, TRUE ~ 0)) %>%
