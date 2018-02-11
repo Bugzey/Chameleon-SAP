@@ -13,7 +13,7 @@ Residuals:
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  0.27669    0.16601   1.667 0.097904 .  
-priceEffect -1.24976    0.42306  -2.954 0.003701 ** 
+priceEffect  1.24976    0.42306   2.954 0.003701 ** 
 compRet1    -1.27857    0.31058  -4.117 6.66e-05 ***
 compRet2    -0.57768    0.25962  -2.225 0.027734 *  
 compRet6    -1.73124    1.17025  -1.479 0.141370    
