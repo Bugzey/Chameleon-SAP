@@ -5,6 +5,10 @@ if (!require(tidyverse)) {
 	require(tidyverse)
 }
 
+if (!require(MASS)) {
+	install.packages("MASS")
+	require(MASS)
+}
 rm(list = ls())
 in_file = "../0. Data/D_0020 BasePriceCalculation.csv"
 out_file = "M_0101 Result.txt"
@@ -118,9 +122,10 @@ frm <- as.formula(paste("Upsale ~ priceEffect +",
                         sep = ""))
 model <- lm(frm, dataForModelling )
 summary(model)
+step <- stepAIC(model, direction = "both")
 
 #	Export the result
 sink(file = out_file)
-summary(model)
+summary(step)
 sink()
 
