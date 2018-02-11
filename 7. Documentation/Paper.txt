@@ -43,6 +43,7 @@ Step 2. The Mutate function is being used to transform the different types of pr
 Step 3. The NA values are replaced with 0.
 Step 4. The differences between the actual price and the compeditor price is calculated.
 Step 5. Model output:
+We calculate the predicted demand of the products based of the actual price, compeditors prices and price difference between the actual and that of the compeditors.
 The Intercept, PriceEffect,CompRet1,inProm,timeInProm,percOfWeeksInPromLast3Month,priceDiff1,priceDiff3 are statistically significant in line
 with their respective p-values, when they are less then 0.05.
 Coefficients:
@@ -67,9 +68,11 @@ priceDiff7                  -0.72119    0.98848  -0.730 0.466963
 The Adjusted R-squared is 0.709. This means the model explains approximatedly 71% of the behavior of.
 
 Evaluation
+TBA
 
 Deployment
-
+If this has more data especially for the compeditors it could make for a better use of an application that predicts the fluctuations of the volume of sales based on the imput prices.
+The current amount of data makes in not very usefull for any practical applications.
 
 We used the following sources:
 https://www.crosscap.com/blog/guide-to-analyzing-the-overall-lift-of-a-retail-promotion
