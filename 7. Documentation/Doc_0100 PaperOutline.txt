@@ -46,32 +46,38 @@ Step 3. The NA values are replaced with 0.
 Step 4. The differences between the actual price and the compeditor price is calculated.
 Step 5. Model output:
 We calculate the predicted demand of the products based of the actual price, compeditors prices and price difference between the actual and that of the compeditors.
-The Intercept, PriceEffect,CompRet1,inProm,timeInProm,percOfWeeksInPromLast3Month,priceDiff1,priceDiff3 are statistically significant in line
+The PriceEffect, CompRet1, compRet2, inProm, timeInProm, priceDiff1, priceDiff3, priceDiff6, priceDiff7 are statistically significant in line
 with their respective p-values, when they are less then 0.05.
 Coefficients:
-                            Estimate Std. Error t value Pr(>|t|)    
-(Intercept)                  9.13284    0.18883  48.366  < 2e-16 ***
-priceEffect                  0.92996    0.44559   2.087 0.038854 *  
-compRet1                    -1.25071    0.32456  -3.854 0.000183 ***
-compRet2                    -0.45717    0.29101  -1.571 0.118636    
-compRet6                    -1.66276    1.37856  -1.206 0.229963    
-compRet7                    -0.15867    0.69568  -0.228 0.819946    
-inProm                       0.26994    0.07691   3.510 0.000618 ***
-timeInProm                  -0.06379    0.02255  -2.828 0.005430 ** 
-numberOfComps                0.04774    0.04094   1.166 0.245714    
-percOfWeeksInPromLast3Month -0.49448    0.14245  -3.471 0.000705 ***
-priceDiff1                  -1.03707    0.48008  -2.160 0.032607 *  
-priceDiff2                  -0.15236    0.19179  -0.794 0.428400    
-priceDiff3                  -0.86797    0.23202  -3.741 0.000275 ***
-priceDiff4                   0.20621    0.22537   0.915 0.361903    
-priceDiff5                  -0.46843    0.31719  -1.477 0.142159    
-priceDiff6                   0.38055    0.73227   0.520 0.604174    
-priceDiff7                  -0.72119    0.98848  -0.730 0.466963 
+lm(formula = Upsale ~ priceEffect + compRet1 + compRet2 + compRet6 + 
+    inProm + timeInProm + priceDiff1 + priceDiff3 + priceDiff6 + 
+    priceDiff7, data = dataForModelling)
 
-Residual standard error: 0.2296 on 129 degrees of freedom
-Multiple R-squared:  0.7411,	Adjusted R-squared:  0.709 
-F-statistic: 23.08 on 16 and 129 DF,  p-value: < 2.2e-16
-The Adjusted R-squared is 0.709. This means the model explains approximately 71% of the behavior of.
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.6259 -0.1229  0.0165  0.1277  0.4877 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.27669    0.16601   1.667 0.097904 .  
+priceEffect  1.24976    0.42306   2.954 0.003701 ** 
+compRet1    -1.27857    0.31058  -4.117 6.66e-05 ***
+compRet2    -0.57768    0.25962  -2.225 0.027734 *  
+compRet6    -1.73124    1.17025  -1.479 0.141370    
+inProm       0.30498    0.07040   4.332 2.86e-05 ***
+timeInProm  -0.07816    0.02072  -3.773 0.000241 ***
+priceDiff1  -0.69756    0.35221  -1.981 0.049678 *  
+priceDiff3  -0.77447    0.16703  -4.637 8.26e-06 ***
+priceDiff6   0.91963    0.36010   2.554 0.011764 *  
+priceDiff7  -1.44757    0.59601  -2.429 0.016466 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.2115 on 135 degrees of freedom
+Multiple R-squared:  0.7523,	Adjusted R-squared:  0.7339 
+F-statistic: 40.99 on 10 and 135 DF,  p-value: < 2.2e-16
+
+The Adjusted R-squared is 0.7339. This means the model explains approximately 73% of the behavior of.
 
 Evaluation
 TBA
