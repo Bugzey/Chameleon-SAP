@@ -9,15 +9,17 @@ R (tidyverse, forecast, zoo)
 Excel
 
 Business Understanding
-Who: Reatial Supermarket
-What: The effects of the promotions of compeditors on the volume of sales.
+Who: Retail Business
+What: The effects of the promotions of compeditors on the volume of sales. Understanding the promotion effects on the demand of goods as well as the cannibalization when a new product appears
+by the same produsor.
 
 Data Understanding
 Creating Dummy Varaibles
 Ploting variables against each other
+Exploratory Data Analysis, finding outliers in the dataset.
 https://github.com/Bugzey/Chameleon-SAP
 
-Data Understanding
+Visualization Output
 Chart 1 Ploloting the volume of sales agains the weeks, it is devided by the different types of promotions. There is a lot of variation.
 Chart 2 Ploting the actual price against the weeks, it is devided by the different types of promotions. Usually the price variation is less then 20%
 case A and E are exceptions.
@@ -28,7 +30,7 @@ Chart 6 Ploting the dummy variavle BaseSales against the weeks, the latest weeks
 Chart 7 Ploting the dummy variavle SalesYearPast against the weeks, the situation is similar to that of Chart 6.
 
 Note 1 the Chart numbering in github is not the same as here. Here the sourced code is being followed on the numbering.
-Note 2 The legend of charts 6-8 the name of the color does not match with the true colors.
+Note 2 The legend of charts 6-8 the name of the color does not match with the true colors. 
 
 Data Preparation
 1. Raw Data:
@@ -65,7 +67,11 @@ priceDiff4                   0.20621    0.22537   0.915 0.361903
 priceDiff5                  -0.46843    0.31719  -1.477 0.142159    
 priceDiff6                   0.38055    0.73227   0.520 0.604174    
 priceDiff7                  -0.72119    0.98848  -0.730 0.466963 
-The Adjusted R-squared is 0.709. This means the model explains approximatedly 71% of the behavior of.
+
+Residual standard error: 0.2296 on 129 degrees of freedom
+Multiple R-squared:  0.7411,	Adjusted R-squared:  0.709 
+F-statistic: 23.08 on 16 and 129 DF,  p-value: < 2.2e-16
+The Adjusted R-squared is 0.709. This means the model explains approximately 71% of the behavior of.
 
 Evaluation
 TBA
@@ -76,3 +82,4 @@ The current amount of data makes in not very usefull for any practical applicati
 
 We used the following sources:
 https://www.crosscap.com/blog/guide-to-analyzing-the-overall-lift-of-a-retail-promotion
+https://www.slideshare.net/MinhaHwang/2-model-and-estimationf
