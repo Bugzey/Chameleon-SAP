@@ -5,7 +5,7 @@ SAP Case Team:
 Stefan Panev (stephen.panev@gmail.com), Metodi Nikolov (metodi.nikolov@gmail.com), Ivan Vrategov (ivanvrategov@gmail.com, Radoslav Dimitrov (rdimitrov@indeavr.com)
 Team Toolset:
 The project is deployed in R. Due to the small data size MS Excel proves being sufficient for some analysis.
-R (tidyverse, forecast, zoo)
+R (tidyverse, forecast, zoo, forcast)
 Excel
 
 Business Understanding
