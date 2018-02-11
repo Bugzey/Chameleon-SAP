@@ -1,16 +1,49 @@
-Chameleon - SAP Case Team Mentors:
-Alexander Efremov(aefremov@gmail.com) and Agamemnon Baltagiannis (agamemnon.baltagiannis@sap.com)
+Witty title 
 
-SAP Case Team:
-Stefan Panev (stephen.panev@gmail.com), Metodi Nikolov (metodi.nikolov@gmail.com), Ivan Vrategov (ivanvrategov@gmail.com, Radoslav Dimitrov (rdimitrov@indeavr.com)
-Team Toolset:
-The project is deployed in R. Due to the small data size MS Excel proves being sufficient for some analysis.
-R (tidyverse, forecast, zoo)
-Excel
-
+Introduction
+Metadata
 Business Understanding
-Who: Reatial Supermarket
-What: The effects of the promotions of compeditors on the volume of sales.
+Data Understanding
+Data Preparation
+Modelling
+Evaluation
+Deployment
+Conclusion
+
+## Introduction
+
+
+## Metadata
+Case: The SAP Case – Analyze Sales
+Team: Chameleon
+Memebers:
+* Stefan Panev (stephen.panev@gmail.com), 
+* Metodi Nikolov (metodi.nikolov@gmail.com), 
+* Ivan Vrategov (ivanvrategov@gmail.com, 
+* Radoslav Dimitrov (rdimitrov@indeavr.com)
+
+Mentors:
+* Alexander Efremov(aefremov@gmail.com)
+* Agamemnon Baltagiannis (agamemnon.baltagiannis@sap.com)
+
+Team Toolset:
+The project is conducted primarily in R using RStudio as a graphical user interface. Some auxiliary analyses were conducted in Microsoft Excel due to the small size of the data.
+
+Packages:
+tidyverse (ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, forcats)
+forecast
+zoo
+
+
+## Business Understanding
+Who: Retail business
+What: The effects of price promitions of a retail cleint and of their competitors on sales volume
+
+The purpose of this project is to analyse what effects promotions conducted both by a retail client and by competing firms have on the client's overall volume of sales. By including these factors along with other derived variables we aim to create a predictive model that describes the marginal effects of each base variable on the client's overall sales volume.
+
+An ideal solution to the case should include a complete description of each separate work step, a well-defined project structure, independently executable code, adequate data visualisation, an outline of the results achieved as well as an evaluation of modelling accuracy and model specification.
+
+
 
 Data Understanding
 Creating Dummy Varaibles
