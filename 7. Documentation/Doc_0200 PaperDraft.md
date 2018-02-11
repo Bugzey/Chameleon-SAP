@@ -1,41 +1,34 @@
-# Witty title 
-
-Introduction
-Metadata
-Business Understanding
-Data Understanding
-Data Preparation
-Modelling
-Evaluation
-Deployment
-Conclusion
-
-## Introduction
-
+# Tiny smart data modelled with a not-so-tiny smart model
+_Team Chameleons_
 
 ## Metadata
-Case: The SAP Case – Analyze Sales
+Case: The SAP Case - Analyze Sales
+
 Team: Chameleon
-Project URL: https://github.com/Bugzey/Chameleon-SAP
+
+Project URL: [https://github.com/Bugzey/Chameleon-SAP](https://github.com/Bugzey/Chameleon-SAP)
+
 Memebers:
 
-* Stefan Panev (stephen.panev@gmail.com), 
-* Metodi Nikolov (metodi.nikolov@gmail.com), 
-* Ivan Vrategov (ivanvrategov@gmail.com, 
-* Radoslav Dimitrov (rdimitrov@indeavr.com)
+* Stefan Panev ([stephen.panev@gmail.com](mailto:stephen.panev@gmail.com)), 
+* Metodi Nikolov ([metodi.nikolov@gmail.com](mailto:metodi.nikolov@gmail.com)), 
+* Ivan Vrategov ([ivanvrategov@gmail.com](mailto:ivanvrategov@gmail.com)), 
+* Radoslav Dimitrov ([rdimitrov@indeavr.com](mailto:rdimitrov@indeavr.com))
 
 Mentors:
 
-* Alexander Efremov(aefremov@gmail.com)
-* Agamemnon Baltagiannis (agamemnon.baltagiannis@sap.com)
+* Alexander Efremov ([aefremov@gmail.com](mailto:aefremov@gmail.com))
+* Agamemnon Baltagiannis ([agamemnon.baltagiannis@sap.com](mailto:agamemnon.baltagiannis@sap.com))
 
 Team Toolset:
+
 The project is conducted primarily in R using RStudio as a graphical user interface. Some auxiliary analyses were conducted in Microsoft Excel due to the small size of the data.
 
 Packages:
-tidyverse (ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, forcats)
-forecast
-zoo
+
+* tidyverse (ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, forcats)
+* forecast
+* zoo
 
 
 ## Business Understanding
@@ -93,62 +86,161 @@ All of the above insights will be taken into account when preparing the dataset 
 
 
 ## Data Preparation
-1. Raw Data:
-Dataset 1--> Data Type: Sales --> Data Format: CSV
-Dataset 2--> Data Type: Manipolated Data Sales (D_0010 DU_0100 BaseManipulations.csv) --> Data Format: CSV (dummy variables have been added to the intial dataset) for the compeditors.
-Dataset 3--> Data Type: (D_0020 BasePriceCalculation.csv) --> Data Format: CSV
 
+The task at hand is to model the Upsale, which we define as the change in trading volume resulting from the application various promotions. In other words – how much new sales did the product received because we applied a price reduction.
 
-### Arriving at a base sales volume via an ARIMAX model
-A review of the literature on marketing effectiveness as well as suggestions of our mentor suggest that we need to isolate a form of base volume and base price, which form the basis of comparison when we estimate the effects of singular promotions.
+In order to do this we need: firstly, we need to know what would be the trading volume had there been no price reductions – we will refer to this as Base Volume. This will be our dependent variable; it needs to be noted that there is a model for the calculation of that volume and ultimately, multiple models will need to be checked.
+Subsequent work will use the logarithmic of the Upsale, to deal with possible scaling issues.
 
-In this passage we briefly attempt to extract such a base volume by cleaning out all the effects of competitor pricing.
-
-First of all, we want to put the dat
-
-[TO BE CONTINUED]
+Next, we need to create our explanatory variables. From general considerations, the price reduction seems to be a needed component – this unfortunately, this variable is not part of the supplied data. Thus, we will need to estimate the discount, by calculating first a Base Price – the price of the product without any promotions/discounts. Again this will have to be estimated and we provide two possible algorithms, with more possible.
 
 
 ## Modeling
-We have created a model based on the D_0020 BasePriceCalculation.csv and the results are presented in M_0101 Result.txt.
-Step 1. The Logarithmic function is used to transform the used data.
-Step 2. The Mutate function is being used to transform the different types of promotions to quantitative values.
-Step 3. The NA values are replaced with 0.
-Step 4. The differences between the actual price and the compeditor price is calculated.
-Step 5. Model output:
-We calculate the predicted demand of the products based of the actual price, compeditors prices and price difference between the actual and that of the compeditors.
-The Intercept, PriceEffect,CompRet1,inProm,timeInProm,percOfWeeksInPromLast3Month,priceDiff1,priceDiff3 are statistically significant in line
-with their respective p-values, when they are less then 0.05.
 
+### Modelling of the Base Volume.
+The selected model for base volume is the following:
+
+1. during non-promotion weeks, the base volume is actual volume.
+2. at the onset of a promotion, the base volume is calculated as the average volume over the last 3 months, excluding periods of promotions.
+3. during a promotion (from week 2 onward) the base volume is the previous base volume.
+
+This is one possible way to estimate Base Volume, with fine tuning of periods or the usage of YoY changes, or part year for the same period. Their implementation depends on further metadata – type of product, calendar dates etc.
+
+### Modelling of Base Price
+The estimate of the Base Price also could be done in multiple ways. We will present two algorithms, with results following one of them (source code has both).
+
+Before that, the selected algorithms were based on the assumption that the Base Price needs to be larger than the actual price the product is being sold, the counter possibility doesn’t make economic sense.
+Additionally, it is expected that the Base Price doesn’t exhibit excessive price change variability.
+
+**Algorithm 1:**
+
+1. assume that the price in the period before the onset of a promotion is a base price. form the set of all such prices.
+2. between such consecutive days, find any dates/prices couples that are larger than the two end points - add them to the set.
+3. perform a linear interpolation between the dates/ values in the set
+4. perform any corrections where the resulting lines are below the actual price.
+
+The shortcoming of this algorithm is that it follows the actual price too closely and is smooth (the variability of price changes is too large).
+
+**Algorithm 2:**
+1. take a 6 month period and find its mid point.
+2. the base price for that point is the maximum price over the same 6 month period.
+3. move the period 3 months forward.
+4. the starting points Base Price is the maximum for the next 3 months; the ending period is the last maximum as well.
+5. calculate the linear approximation from the dates and base values.
+
+This algorithm overcomes the two shortcomings of algorithm 1, however, it could be improved - the length of the periods can be fine-tuned (based on the type of the product) as well as the type approximation, it could for example be a cubic spline to lead to smoother line.
+
+### Creation of additional predictors.
+
+1. Discount factor (priceEffect)
+
+The percentage difference between the actual price and base price. The sign of the variable is chosen so that a discount will have a positive effect on the Upsale.
+
+2. Price changes of competitor products (compRet).
+
+These variables show if other products have discounts or promotions. It is expected that discounts in competing product will have negative effect on Upsale.
+
+3. Difference between prices of our product and competitors (priceDiff)
+
+The difference in prices of products, or how much cheaper or more expensive our product is compared to the competition - cheaper products are expected to have larger Upsale.
+
+4. Is the product in promotion (inProm)?
+
+Even if the product is trading at discount to base price, the consumer may be less inclined to
+buy unless the product is in promotion.
+
+5. How long has the product been in promotion (timeInProm)?
+
+Variable representing the length of the current promotion – in order to capture "consumer fatigue" - having a product being on current promotion too long my lead to reduction in Upsale.
+
+6. Percentage of time the product has been in promotion the last 3 months (percOfWeeksInPromLast3Month).
+
+Linked again with consumer fatigue, too many (even is different) promotions could reduce sale/upsale.
+
+7. Number of competitors on the market (numberOfComps)
+
+Having too many competing product may reduce sales/upsales.
+
+
+### Model and model fit
+The selected model to estimate the dependence of the dependent variable via a linear regression. The model is being estimated via OLS.
+Further, step-wise selection is being applied to reduce the number of variables in the final model.
+
+We have created a model based on the `D_0020 BasePriceCalculation.csv` and the results are presented in `M_0101 Result.txt`.
+
+Step 1. The Logarithmic function is used to transform the used data.
+
+Step 2. The Mutate function is being used to transform the different types of promotions to quantitative values.
+
+Step 3. The NA values are replaced with 0.
+
+Step 4. The differences between the actual price and the compeditor price is calculated.
+
+Step 5. Model output:
+
+We calculate the predicted demand of the products based of the actual price, compeditors prices and price difference between the actual and that of the compeditors.
+
+The Intercept, PriceEffect, CompRet1, inProm, timeInProm, percOfWeeksInPromLast3Month, priceDiff1, priceDiff3 are statistically significant in line with their respective p-values, when they are less then 0.05.
+
+Depicted below is the complete model summary:
 ```
+Call:
+lm(formula = Upsale ~ priceEffect + compRet1 + compRet2 + compRet6 + 
+    inProm + timeInProm + priceDiff1 + priceDiff3 + priceDiff6 + 
+    priceDiff7, data = dataForModelling)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.6259 -0.1229  0.0165  0.1277  0.4877 
+
 Coefficients:
-                            Estimate Std. Error t value Pr(>|t|)    
-(Intercept)                  9.13284    0.18883  48.366  < 2e-16 ***
-priceEffect                  0.92996    0.44559   2.087 0.038854 *  
-compRet1                    -1.25071    0.32456  -3.854 0.000183 ***
-compRet2                    -0.45717    0.29101  -1.571 0.118636    
-compRet6                    -1.66276    1.37856  -1.206 0.229963    
-compRet7                    -0.15867    0.69568  -0.228 0.819946    
-inProm                       0.26994    0.07691   3.510 0.000618 ***
-timeInProm                  -0.06379    0.02255  -2.828 0.005430 ** 
-numberOfComps                0.04774    0.04094   1.166 0.245714    
-percOfWeeksInPromLast3Month -0.49448    0.14245  -3.471 0.000705 ***
-priceDiff1                  -1.03707    0.48008  -2.160 0.032607 *  
-priceDiff2                  -0.15236    0.19179  -0.794 0.428400    
-priceDiff3                  -0.86797    0.23202  -3.741 0.000275 ***
-priceDiff4                   0.20621    0.22537   0.915 0.361903    
-priceDiff5                  -0.46843    0.31719  -1.477 0.142159    
-priceDiff6                   0.38055    0.73227   0.520 0.604174    
-priceDiff7                  -0.72119    0.98848  -0.730 0.466963 
-The Adjusted R-squared is 0.709. This means the model explains approximatedly 71% of the behavior of.
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.27669    0.16601   1.667 0.097904 .  
+priceEffect  1.24976    0.42306   2.954 0.003701 ** 
+compRet1    -1.27857    0.31058  -4.117 6.66e-05 ***
+compRet2    -0.57768    0.25962  -2.225 0.027734 *  
+compRet6    -1.73124    1.17025  -1.479 0.141370    
+inProm       0.30498    0.07040   4.332 2.86e-05 ***
+timeInProm  -0.07816    0.02072  -3.773 0.000241 ***
+priceDiff1  -0.69756    0.35221  -1.981 0.049678 *  
+priceDiff3  -0.77447    0.16703  -4.637 8.26e-06 ***
+priceDiff6   0.91963    0.36010   2.554 0.011764 *  
+priceDiff7  -1.44757    0.59601  -2.429 0.016466 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2115 on 135 degrees of freedom
+Multiple R-squared:  0.7523,	Adjusted R-squared:  0.7339 
+F-statistic: 40.99 on 10 and 135 DF,  p-value: < 2.2e-16
 ```
 
 ## Evaluation
-TBA
+The step-wise procedure selects the following predictors:
+
+* the actual discount - larger discount leads to larger upsale.
+* being in discount - having promotions leads to increase in sales.
+* the changes in prices of competitors lead to reduction in the upsale, but not all products have the same effect on the dependent variable. This could mean that these product are not direct competitors, but still have cannibalization effect on the product under review.
+* the difference in price between our product and the competing products pay a role in the size of upsales.
+* There is a small, but statistically significant effect from the length of the promotion, in the negative sense. Thus, one could argue for some consumer fatigue, though it is not very large. Promotions should probably be kept up to 4 weeks to negate the effect of this.
+
 
 ## Deployment
-If this has more data especially for the compeditors it could make for a better use of an application that predicts the fluctuations of the volume of sales based on the imput prices.
-The current amount of data makes in not very usefull for any practical applications.
 
-We used the following sources:
-https://www.crosscap.com/blog/guide-to-analyzing-the-overall-lift-of-a-retail-promotion
+Our model has a big room for improvement. For example, it is important what type of promotion we are running – pure price reduction, different positioning of our product in the store, etc. Another aspect for improvement would be information whether our competitors are in promotion and if they are, what type of promotion it is.
+
+Moreover, data for production cost is vital for determining the effect of promotions as it is important metric for calculating the base price of the product and from it the price effect of the promotion.
+
+However, with the current type and amount of data provided we build a model with relatively high training accuracy. We managed to achieve an adjusted coefficient of determination of 0.73 and the model would have some practical applications in explaining the volume of sales of our product.
+
+Based on the output we can conclude that:
+
+* the fact that we are promoting the product has positive effect on the volume of sales;
+* longer promotions have negative effect on the volume of sales;
+* a big number of promotions run in the last 3 months has negative effects on the volume of sales.
+
+## Resources
+
+[https://www.crosscap.com/blog/guide-to-analyzing-the-overall-lift-of-a-retail-promotion](https://www.crosscap.com/blog/guide-to-analyzing-the-overall-lift-of-a-retail-promotion)
+
+[http://www.jstor.org/stable/pdf/184154.pdf?refreqid=excelsior:5a7c4890283758e1f361318b1f98d010](http://www.jstor.org/stable/pdf/184154.pdf?refreqid=excelsior:5a7c4890283758e1f361318b1f98d010)
+
