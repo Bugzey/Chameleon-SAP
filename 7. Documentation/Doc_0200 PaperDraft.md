@@ -64,7 +64,7 @@ Since the entire dataset depicts a time sequence of variables, we opt to visuali
 
 Chart DU\_0200 01 - line charts of all prices
 
-![2. Data Understanding/DU_0200 Exploration Plot 01.png](2. Data Understanding/DU_0200 Exploration Plot 01.png)
+![2. Data Understanding/DU_0200 Exploration Plot 01.png]
 
 The first plot in the series examines the price levels exhibited by the client and all competing firms. Initially we disregard information about promotions. The defining feature in this visualisation is the discontinuity in the prices of most competing firms. The gaps between relatively homogenous series of competitor prices indicate periods where a competitor is not active in the market.
 
@@ -72,7 +72,7 @@ The above revelation suggests that we need to control for the presense and absen
 
 Chart Du\_0200 04 - scatterplot of price against week, promotions colour-coded
 
-![2. Data Understanding/DU_0200 Exploration Plot 04.png](2. Data Understanding/DU_0200 Exploration Plot 04.png)
+![2. Data Understanding/DU_0200 Exploration Plot 04.png][Du_0200_01]
 
 An initial attempt to visualise the effect of promotions produced a scatterplot of prices where the scatter points are colour-coded according to the type of promotion offered at the time; the x-axis shows the week index. We notice that gray-coded price points Tend to occupy the top quadrants of the plot. As a result, the promotions included in the data appear to correspond to price reductions. Other types of pomotion such as a "two for one" scheme are not explicitly excluded, since they can be interpreted as, for example, a 50% reduction in price.
 
@@ -254,3 +254,4 @@ Based on the output we can conclude that:
 
 [http://www.jstor.org/stable/pdf/184154.pdf?refreqid=excelsior:5a7c4890283758e1f361318b1f98d010](http://www.jstor.org/stable/pdf/184154.pdf?refreqid=excelsior:5a7c4890283758e1f361318b1f98d010)
 
+[Du_0200_01]: https://raw.githubusercontent.com/Bugzey/Chameleon-SAP/master/2.%20Data%20Understanding/DU_0200%20Exploration%20Plot%2001.png
