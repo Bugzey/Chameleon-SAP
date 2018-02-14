@@ -63,19 +63,19 @@ Our dataset with the file name ```1DATATHON_SAP_AI_initial_data.csv``` has the f
 Since the entire dataset depicts a time sequence of variables, we opt to visualise the data via combinations of line charts and bar charts where the week index serves as an x-axis and the variable under observations is depictd on the y-axis.
 
 Chart DU_0200 01 - line charts of all prices
-![../2. Data Understanding/DU_0200 Exploration Plot 01.png](../2. Data Understanding/DU_0200 Exploration Plot 01.png)
+![2. Data Understanding/DU_0200 Exploration Plot 01.png](2. Data Understanding/DU_0200 Exploration Plot 01.png)
 The first plot in the series examines the price levels exhibited by the client and all competing firms. Initially we disregard information about promotions. The defining feature in this visualisation is the discontinuity in the prices of most competing firms. The gaps between relatively homogenous series of competitor prices indicate periods where a competitor is not active in the market.
 
 The above revelation suggests that we need to control for the presense and absense of competitors in all subsequent analyses.
 
 Chart Du_0200 04 - scatterplot of price against week, promotions colour-coded
-![../2. Data Understanding/DU_0200 Exploration Plot 04.png](../2. Data Understanding/DU_0200 Exploration Plot 04.png)
+![../2. Data Understanding/DU_0200 Exploration Plot 04.png](2. Data Understanding/DU_0200 Exploration Plot 04.png)
 An initial attempt to visualise the effect of promotions produced a scatterplot of prices where the scatter points are colour-coded according to the type of promotion offered at the time; the x-axis shows the week index. We notice that gray-coded price points Tend to occupy the top quadrants of the plot. As a result, the promotions included in the data appear to correspond to price reductions. Other types of pomotion such as a "two for one" scheme are not explicitly excluded, since they can be interpreted as, for example, a 50% reduction in price.
 
 However, The visualisation in this form omits any sequences of promotion and volume.
 
 Chart Du_0200 05 - barplot of volume of sales with bars during a promotion period colour-coded
-![../2. Data Understanding/DU_0200 Exploration Plot 05.png](../2. Data Understanding/DU_0200 Exploration Plot 05.png)
+![../2. Data Understanding/DU_0200 Exploration Plot 05.png](2. Data Understanding/DU_0200 Exploration Plot 05.png)
 Similarly to the previous plot, here we depict the sales volume for each week and depict the promotion type by colouring the graph. Price points where a promotion is not active are coloured in dark gray. This visualisation confirms that massive spikes in sales volumes are observed during promotional periods, whereas the volumes drop back to a background level after a promotion has ended.
 
 Thus we confirm, at least on a visual and intuitive level, the sequencial dependense of the sales volume on the promotions offered by the client. 
@@ -105,6 +105,8 @@ The selected model for base volume is the following:
 3. during a promotion (from week 2 onward) the base volume is the previous base volume.
 
 This is one possible way to estimate Base Volume, with fine tuning of periods or the usage of YoY changes, or part year for the same period. Their implementation depends on further metadata – type of product, calendar dates etc.
+[!7. Documentation/Doc_0201 VolumeVsBaseVolume.png](7. Documentation/Doc_0201 VolumeVsBaseVolume.png)
+
 
 ### Modelling of Base Price
 The estimate of the Base Price also could be done in multiple ways. We will present two algorithms, with results following one of them (source code has both).
@@ -129,6 +131,8 @@ The shortcoming of this algorithm is that it follows the actual price too closel
 5. calculate the linear approximation from the dates and base values.
 
 This algorithm overcomes the two shortcomings of algorithm 1, however, it could be improved - the length of the periods can be fine-tuned (based on the type of the product) as well as the type approximation, it could for example be a cubic spline to lead to smoother line.
+
+[!7. Documentation/Doc_0202 Doc_0202 BasePriceToActual.png](7. Documentation/Doc_0202 Doc_0202 BasePriceToActual.png) 
 
 ### Creation of additional predictors.
 
