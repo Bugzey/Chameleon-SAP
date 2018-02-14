@@ -18,9 +18,11 @@ data %>% head()
 
 #	Plotting
 png(
-	filename = "DU_0200 Exploration Plot %02d.png",
-	width = 1200,
-	height = 800
+	filename = "DU_0201 Exploration Plot %02d.png",
+	width = 800,
+	height = 600,
+	type = "cairo",
+	antialias = "default"
 )
 str(data)
 data[data == 0] = NA
