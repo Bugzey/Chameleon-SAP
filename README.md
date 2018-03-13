@@ -1,6 +1,9 @@
 # Team Chameleon Repository at Datathon 2018
 Working on the case for SAP. More info [here](https://www.datasciencesociety.net/datathon/2018/02/04/the-sap-case-analyze-sales/)
 
+## Project completion
+Work on the Datathon project has been completed as of 11.02.2018. The final project documentation can be viewed [here](https://raw.githubusercontent.com/Bugzey/Chameleon-SAP/master/7.%20Documentation/Doc_0200%20PaperDraft.md).
+
 ## Project Organisation
 The project is structured following the Cross-Industry Standard Practice in Data Mining (CRISP-DM). We include the following folders:
 
@@ -27,7 +30,8 @@ each file or folder in the project should be executed in order to arrive at the 
 Example:
 
 3. Data Preparation
-..* DP\_010 First steps.R
-..* DP\_011 First steps graph 01.png
-..* DP\_012 First steps graph 02.png
-..* DP\_020 Second approach.R
+
+* DP\_010 First steps.R
+* DP\_011 First steps graph 01.png
+* DP\_012 First steps graph 02.png
+* DP\_020 Second approach.R
