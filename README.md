@@ -2,7 +2,7 @@
 Working on the case for SAP. More info [here](https://www.datasciencesociety.net/datathon/2018/02/04/the-sap-case-analyze-sales/)
 
 ## Project completion
-Work on the Datathon project has been completed as of 11.02.2018. The final project documentation can be viewed [here](https://raw.githubusercontent.com/Bugzey/Chameleon-SAP/master/7.%20Documentation/Doc_0200%20PaperDraft.md).
+Work on the Datathon project has been completed as of 11.02.2018. The final project documentation can be viewed [here](https://github.com/Bugzey/Chameleon-SAP/blob/master/7.%20Documentation/Doc_0200%20PaperDraft.md).
 
 ## Project Organisation
 The project is structured following the Cross-Industry Standard Practice in Data Mining (CRISP-DM). We include the following folders:
