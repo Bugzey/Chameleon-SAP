@@ -10,10 +10,7 @@ Project URL: [https://github.com/Bugzey/Chameleon-SAP](https://github.com/Bugzey
 
 Memebers:
 
-* Stefan Panev ([stephen.panev@gmail.com](mailto:stephen.panev@gmail.com)), 
-* Metodi Nikolov ([metodi.nikolov@gmail.com](mailto:metodi.nikolov@gmail.com)), 
-* Ivan Vrategov ([ivanvrategov@gmail.com](mailto:ivanvrategov@gmail.com)), 
-* Radoslav Dimitrov ([rdimitrov@indeavr.com](mailto:rdimitrov@indeavr.com))
+![3. Documentation/Doc_0203 E-mails.png][Doc_0203]
 
 Mentors:
 
@@ -258,3 +255,5 @@ Based on the output we can conclude that:
 [Du_0201_05]: https://raw.githubusercontent.com/Bugzey/Chameleon-SAP/master/2.%20Data%20Understanding/DU_0201%20Exploration%20Plot%2005.png
 [Doc_0201]: https://raw.githubusercontent.com/Bugzey/Chameleon-SAP/master/7.%20Documentation/Doc_0201%20VolumeVsBaseVolume.png
 [Doc_0202]: https://raw.githubusercontent.com/Bugzey/Chameleon-SAP/master/7.%20Documentation/Doc_0202%20BasePriceToActual.png
+[Doc_0203]:
+https://raw.githubusercontent.com/Bugzey/Chameleon-SAP/master/7.%20Documentation/Doc_0203%20E-mails.png
